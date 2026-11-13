@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: openai-mock
+spec:
+  selector:
+    app: openai-mock
+  ports:
+    - name: http
+      port: 8080
+      targetPort: http

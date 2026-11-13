@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: openai-mock-config
+data:
+  MOCK_API_KEY: sk-mock-local
+  MOCK_SCENARIO: success
+  MOCK_DELAY_MS: "0"
+  MOCK_TIMEOUT_SECONDS: "30"
+  ALLOW_SCENARIO_HEADER: "false"
+  LOG_PROMPTS: "false"

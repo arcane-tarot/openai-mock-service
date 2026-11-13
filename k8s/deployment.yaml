@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: openai-mock
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: openai-mock
+  template:
+    metadata:
+      labels:
+        app: openai-mock
+    spec:
+      imagePullSecrets:
+        - name: ghcr-credentials
+      containers:
+        - name: openai-mock
+          image: ghcr.io/arcane-tarot/openai-mock-service:latest
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: openai-mock-config
+          readinessProbe:
+            httpGet:
+              path: /health/ready
+              port: http
+            initialDelaySeconds: 2
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /health/live
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 15
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 250m
+              memory: 256Mi
